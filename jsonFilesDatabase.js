@@ -5,6 +5,9 @@ var jsonfile = require('jsonfile');
 
 function readFile(fileName){
 	jsonfile.readFile(fileName, function(err, arr) {
+  		if(err !== null){
+  			console.error(err);
+  		}
   		console.log(arr);
 	});
 }
@@ -15,20 +18,30 @@ function writeFile(fileName, obj){
 	}
 	jsonfile.writeFile(fileName, obj, function (err) {
 		if(err !== null){
-  			console.error(err);
+  			console.error("21" + err);
   		}
 	});
 }
 
 function appendUser(fileName, newObject){
 	jsonfile.readFile(fileName, function(err, arr){
-		arr.push(newObject);
-		writeFile(fileName, arr);
+		if(err !== null && arr != null){
+  			console.error("29" + err);
+  		}
+  		if (arr == null){  //file is empty
+  			writeFile(fileName, newObject);
+		}else{
+			arr.push(newObject);
+			writeFile(fileName, arr);
+		}
 	});
 }
 
 function getScore(fileName, username){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		for(var user in arr){
 			if(arr[user].username == username){
 				score = arr[user].score;
@@ -53,6 +66,9 @@ function getScoreSync(fileName, username){
 
 function updateScore(fileName, username, newScore){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		for(var user in arr){
 			if(arr[user].username == username){
 				arr[user].score = newScore;
@@ -64,6 +80,9 @@ function updateScore(fileName, username, newScore){
 
 function updatePassword(fileName, username, newPassword){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		for(var user in arr){
 			if(arr[user].username == username){
 				arr[user].password = newPassword;
@@ -75,6 +94,9 @@ function updatePassword(fileName, username, newPassword){
 
 function getPassword(fileName, username){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		for(var user in arr){
 			if(arr[user].username == username){
 				password = arr[user].password;
@@ -101,6 +123,9 @@ function getPasswordSync(fileName, username){
 
 function logInCheck(fileName, username, password){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		var found = false;
 		for(var user in arr){
 			if(arr[user].username == username && arr[user].password == password){
@@ -119,6 +144,9 @@ function logInCheck(fileName, username, password){
 
 function signUpCheck(fileName, username, email){
 	jsonfile.readFile(fileName, function(err, arr){
+		if(err !== null){
+  			console.error(err);
+  		}
 		var found = false;
 		for(var user in arr){
 			if(arr[user].username == username && arr[user].email == email){
